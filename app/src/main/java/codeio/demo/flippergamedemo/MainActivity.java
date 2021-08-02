@@ -61,10 +61,14 @@ public class MainActivity extends AppCompatActivity {
             findViewById(buttonId[firstSelected - 1]).setEnabled(false);
             findViewById(buttonId[secondSelected - 1]).setEnabled(false);
 
+            buttonId[firstSelected - 1] = 0;
+            buttonId[secondSelected - 1] = 0;
+
             displayScore();
 
             resetValues();
         } else {
+            disableOrEnableButtons(false);
             new WaitTask().execute();
         }
     }
@@ -82,6 +86,14 @@ public class MainActivity extends AppCompatActivity {
 
     public void displayScore() {
         score.setText(String.valueOf(scoreMonitor));
+    }
+
+    public void disableOrEnableButtons(boolean flag) {
+        for (int i=0; i<16; i++) {
+            if (buttonId[i] != 0) {
+                findViewById(buttonId[i]).setEnabled(flag);
+            }
+        }
     }
 
     public void openOrCloseButton(int position, boolean toOpen) {
@@ -108,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             closeOpened();
+            disableOrEnableButtons(true);
         }
     }
 }
